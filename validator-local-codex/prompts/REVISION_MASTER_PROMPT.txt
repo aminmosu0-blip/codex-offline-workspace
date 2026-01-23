@@ -1,0 +1,26 @@
+Read AGENTS.md and follow it exactly.
+
+We are revising an existing platform problem. Do not clone or fetch anything.
+
+Inputs:
+- REPO_DIR: <ABS_PATH_TO_LOCAL_REPO>
+- PINNED_SHA: <PINNED_SHA>
+- SUB_DIR: <ABS_PATH_TO_SUBMISSION_FOLDER>
+  (contains Dockerfile.problem, test.patch, solution.patch, description.txt)
+- Validator base URL: http://127.0.0.1:8000
+- Validator-local client path: <ABS_PATH_TO_THIS_REPO>/vlrun.py
+
+Also provided (paste below):
+- Problem metadata: repo URL, category, difficulty, title, current description
+- Validator output + reviewer notes (what failed, what to change)
+
+Requirements:
+- Reproduce validator-local preflight + triad using absolute paths.
+- Reproduce ./test.sh base/new locally after applying patches.
+- Apply reviewer notes first unless that would remove a behavior enforced by tests (then rewrite compactly instead).
+- If AI pass rate is too high, harden tests fairly with >=5 invariants and >=2 anti-shortcut traps without adding undocumented requirements.
+- Never hand-edit patch files; regenerate from staged git changes only.
+- Finish by printing final Title + description.txt and confirming the 4 artifacts exist in SUB_DIR.
+
+Paste the full package here:
+<PASTE>

@@ -1,0 +1,30 @@
+Read AGENTS.md and follow it exactly.
+
+We are authoring a NEW platform-style Python problem in an existing local repo directory. Do not clone or fetch anything.
+
+Inputs:
+- REPO_DIR: <ABS_PATH_TO_LOCAL_REPO>
+- PINNED_SHA: <PINNED_SHA>
+- SUB_DIR: <ABS_PATH_TO_SUBMISSION_FOLDER_TO_WRITE_ARTIFACTS>
+  (will contain Dockerfile.problem, test.patch, solution.patch, description.txt)
+
+Constraints:
+- Dockerfile.problem is the only install step; after docker build, container runs offline.
+- test.patch may modify ONLY test.sh and exactly one tests/test_*_problem.py.
+- solution.patch may modify ONLY production code.
+- description.txt must be ASCII-only and 70-88 words, and must document every behavior enforced by the tests.
+
+Work order:
+1) Verify repo at pinned SHA (no fetching):
+   - cd REPO_DIR
+   - git cat-file -e <SHA>^{commit}
+   - git checkout --detach <SHA>
+   - git status --porcelain (must be clean)
+2) Baseline: run existing repo tests (or confirm there are none) and record the command in test.sh base.
+3) Propose 2-3 candidate deterministic offline issues.
+4) Novelty/intent check: search only within the local repo and the user's pasted notes (no web). If the user later asks for web novelty, do it then.
+5) Choose one issue, write tests first (>=5 invariants, >=2 anti-shortcut traps). Ensure ./test.sh new fails strongly on baseline.
+6) Implement production fix, ensure base suite stays green, new tests pass.
+7) Regenerate patches from staged index only, write them into SUB_DIR, and print final Title + description.txt.
+
+Start by summarizing repo structure and existing test runner (if any), then propose candidates. Do not edit files yet.

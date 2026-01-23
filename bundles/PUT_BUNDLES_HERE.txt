@@ -1,0 +1,2 @@
+Put offline git bundles here (optional). The validator scripts also search in validator-local-codex/bundles/.
+Example: /workspace/bundles/arrow.bundle

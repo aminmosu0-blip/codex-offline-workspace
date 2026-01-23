@@ -1,0 +1,67 @@
+Read AGENTS.md and follow it exactly.
+
+We are revising an existing platform problem. Do not clone or fetch anything.
+
+Autodetect rule (to avoid placeholder headaches):
+- Assume Codex is launched from inside the target repo (or a subdir of it).
+- Derive REPO_DIR via: git rev-parse --show-toplevel
+- Prefer SUB_DIR as: REPO_DIR/submission
+  - If not present, search REPO_DIR/* for Dockerfile.problem
+- Prefer PINNED_SHA from: SUB_DIR/pinned_sha.txt (single SHA token)
+  - If missing, use the SHA I paste below.
+- Prefer validator client vlrun.py from:
+  - $VLRUN env var, else ~/validator-local-codex/vlrun.py
+
+Inputs (fill what you can; autodetect the rest)
+- Repo URL: <PASTE>
+- PINNED_SHA: <PASTE_SHA_HERE>
+- Category: <PASTE>
+- Difficulty: <PASTE>
+- Title: <PASTE>
+
+Provided package (paste)
+- Current description:
+  <PASTE>
+- Validator output:
+  <PASTE>
+- Reviewer notes:
+  <PASTE>
+
+Required work order (must follow)
+A) Resolve inputs and print them (no questions yet)
+   1) Run: python3 scripts/discover_inputs.py
+   2) If SUB_DIR is empty:
+      - create it at REPO_DIR/submission
+      - print a single instruction telling the user to place 4 artifacts there:
+        Dockerfile.problem, test.patch, solution.patch, description.txt
+      - stop (do not proceed)
+   3) If PINNED_SHA is empty, use the pasted PINNED_SHA.
+   4) If vlrun.py is not found, print a single instruction to set:
+      export VLRUN=/abs/path/to/vlrun.py
+      then stop.
+
+B) Reproduce current state (before edits)
+   1) cd REPO_DIR
+      git cat-file -e PINNED_SHA^{commit}
+      git checkout --detach PINNED_SHA
+      git status --porcelain
+   2) Run validator-local:
+      python3 "$VLRUN" preflight ... (absolute paths)
+      python3 "$VLRUN" triad ... (absolute paths)
+   3) Manual triad:
+      git reset --hard && git clean -xdf
+      git apply SUB_DIR/test.patch
+      ./test.sh base
+      ./test.sh new
+      git apply SUB_DIR/solution.patch
+      ./test.sh new
+      ./test.sh base
+   Print concise results and stop.
+
+Then (after reproduction is confirmed):
+- Apply reviewer notes first.
+- If AI pass rate too high, harden tests fairly (>=5 invariants, >=2 anti-shortcut traps) with no undocumented requirements.
+- Regenerate patches from staged index only and write to SUB_DIR.
+- End with final Title + description.txt + confirm 4 artifacts exist + patch touch lists.
+
+Start now at A).

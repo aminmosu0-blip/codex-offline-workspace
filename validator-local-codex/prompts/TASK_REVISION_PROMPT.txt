@@ -1,0 +1,44 @@
+Read AGENTS.md and follow it exactly.
+
+This is a Codex Task workspace. Goal: revise an existing platform problem with zero placeholder stalls.
+
+First, bootstrap validator-local inside this workspace:
+  bash scripts/task_bootstrap.sh
+Then print environment:
+  bash scripts/task_env_check.sh
+
+Autodetect inputs:
+- TOOL_DIR: this repo root
+- BASE_URL: from task_bootstrap.sh output (default http://127.0.0.1:8000)
+- VLRUN: TOOL_DIR/vlrun.py
+- REPO_DIR:
+  - if $REPO_DIR is set, use it
+  - else, run: python3 scripts/task_find_repo.py
+- SUB_DIR: REPO_DIR/submission
+  - if missing, create it and stop with one instruction to place the 4 artifacts there
+- PINNED_SHA:
+  - prefer SUB_DIR/pinned_sha.txt
+  - else use the SHA I paste below
+
+After inputs are resolved, reproduce (no edits yet):
+- git checkout --detach PINNED_SHA; ensure clean status
+- python3 "$VLRUN" preflight ...
+- python3 "$VLRUN" triad ...
+- manual triad via ./test.sh base/new if docker is unavailable
+
+If docker is missing in this task:
+- state clearly that triad execution must be run locally
+- continue only with static checks, patch hygiene, and preparing regenerated patches
+
+Always regenerate patches from staged index only.
+Finish by printing final Title + final description.txt + confirming 4 artifacts exist + patch touched files.
+
+Pasted metadata:
+- Repo URL: <PASTE>
+- PINNED_SHA: <PASTE_SHA>
+- Category: <PASTE>
+- Difficulty: <PASTE>
+- Title: <PASTE>
+- Description: <PASTE>
+- Validator output: <PASTE>
+- Reviewer notes: <PASTE>
