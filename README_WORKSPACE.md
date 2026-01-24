@@ -49,3 +49,23 @@ If that succeeds, Codex can reproduce and iterate.
 ## Notes
 - Nothing here is “stealing” a repo. A bundle is just an offline transport of a git repository you already have access to.
 - You do NOT need to include every repo in the workspace, only the ones you plan to validate.
+
+
+## Codex setup script (recommended)
+
+In Codex "Setup script", run:
+
+- bash scripts/codex_setup.sh
+
+This will:
+- symlink /workspace/validator-local-codex to the bundled validator runner
+- symlink any ./bundles/*.bundle to /workspace/*.bundle
+- optionally fetch a bundle during setup if you set env vars:
+  - BUNDLE_REPO_URL (required to fetch)
+  - PINNED_SHA (optional validation)
+  - BUNDLE_NAME (optional; defaults to repo name)
+
+## Docker requirement
+
+If your task prompt uses `docker build` / `docker run`, make sure your Codex container image includes a working `docker` CLI.
+Verify in terminal: `command -v docker && docker --version`
